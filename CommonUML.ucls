@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class-diagram version="1.2.2" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
+  associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
+  <class id="1" language="java" name="edu.hm.dako.chat.common.DistributionMetrics" project="chatApplication" 
+    file="/chatApplication/src/main/java/edu/hm/dako/chat/common/DistributionMetrics.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="729" width="192" x="118" y="-389"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="2" language="java" name="edu.hm.dako.chat.common.SharedClientStatistics.ClientStatistics" 
+    project="chatApplication" file="/chatApplication/src/main/java/edu/hm/dako/chat/common/SharedClientStatistics.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="369" width="215" x="2493" y="830"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="3" language="java" name="edu.hm.dako.chat.common.CpuUtilisationWatch" project="chatApplication" 
+    file="/chatApplication/src/main/java/edu/hm/dako/chat/common/CpuUtilisationWatch.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="171" width="191" x="350" y="-389"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <enumeration id="4" language="java" name="edu.hm.dako.chat.common.PduType" project="chatApplication" 
+    file="/chatApplication/src/main/java/edu/hm/dako/chat/common/PduType.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="369" width="216" x="1218" y="830"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </enumeration>  
+  <class id="5" language="java" name="edu.hm.dako.chat.common.TestNanoTime" project="chatApplication" 
+    file="/chatApplication/src/main/java/edu/hm/dako/chat/common/TestNanoTime.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="99" width="124" x="581" y="-389"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <enumeration id="6" language="java" name="edu.hm.dako.chat.common.ClientConversationStatus" project="chatApplication" 
+    file="/chatApplication/src/main/java/edu/hm/dako/chat/common/ClientConversationStatus.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="153" width="233" x="1707" y="830"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </enumeration>  
+  <class id="7" language="java" name="edu.hm.dako.chat.common.ChatPDU" project="chatApplication" 
+    file="/chatApplication/src/main/java/edu/hm/dako/chat/common/ChatPDU.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="1179" width="440" x="1218" y="-389"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="8" language="java" name="edu.hm.dako.chat.common.ClientListEntry" project="chatApplication" 
+    file="/chatApplication/src/main/java/edu/hm/dako/chat/common/ClientListEntry.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="873" width="258" x="2195" y="-389"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <enumeration id="9" language="java" name="edu.hm.dako.chat.common.ImplementationType" project="chatApplication" 
+    file="/chatApplication/src/main/java/edu/hm/dako/chat/common/ImplementationType.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="99" width="245" x="745" y="-389"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </enumeration>  
+  <class id="10" language="java" name="edu.hm.dako.chat.common.SystemConstants" project="chatApplication" 
+    file="/chatApplication/src/main/java/edu/hm/dako/chat/common/SystemConstants.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="135" width="148" x="1030" y="-389"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="11" language="java" name="edu.hm.dako.chat.common.MemoryTest" project="chatApplication" 
+    file="/chatApplication/src/main/java/edu/hm/dako/chat/common/MemoryTest.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="243" width="186" x="1698" y="-389"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="12" language="java" name="edu.hm.dako.chat.common.SharedClientStatistics" project="chatApplication" 
+    file="/chatApplication/src/main/java/edu/hm/dako/chat/common/SharedClientStatistics.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="1125" width="312" x="2493" y="-389"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="13" language="java" name="edu.hm.dako.chat.common.ExceptionHandler" project="chatApplication" 
+    file="/chatApplication/src/main/java/edu/hm/dako/chat/common/ExceptionHandler.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="153" width="231" x="1924" y="-389"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <association id="14">    
+    <end type="SOURCE" refId="7" navigable="false">      
+      <attribute id="15" name="pduType"/>      
+      <multiplicity id="16" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="4" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="17">    
+    <end type="SOURCE" refId="8" navigable="false">      
+      <attribute id="18" name="status"/>      
+      <multiplicity id="19" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="6" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="20">    
+    <end type="SOURCE" refId="12" navigable="false">      
+      <attribute id="21" name="clientStatistics"/>      
+      <multiplicity id="22" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="2" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="23">    
+    <end type="SOURCE" refId="7" navigable="false">      
+      <attribute id="24" name="clientStatus"/>      
+      <multiplicity id="25" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="6" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <nesting id="26">    
+    <end type="SOURCE" refId="12"/>    
+    <end type="TARGET" refId="2"/>  
+  </nesting>  
+  <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+    sort-features="false" accessors="true" visibility="true">    
+    <attributes public="true" package="true" protected="true" private="true" static="true"/>    
+    <operations public="true" package="true" protected="true" private="true" static="true"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="true"/>
+</class-diagram>
