@@ -29,7 +29,7 @@ public class AuditLogServer extends Thread {
               = new DatagramPacket(buf, buf.length);
             try {
 				socket.receive(packet);
-				System.out.println(packet.toString());
+				System.out.println(packet.getAddress().toString());
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
