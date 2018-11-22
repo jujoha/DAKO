@@ -1,5 +1,7 @@
 package edu.hm.dako.chat.server;
 
+import java.io.IOException;
+import java.net.*;
 import java.util.Vector;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -29,6 +31,15 @@ public class SimpleChatServerImpl extends AbstractChatServer {
 	// Socket fuer den Listener, der alle Verbindungsaufbauwuensche der Clients
 	// entgegennimmt
 	private ServerSocketInterface socket;
+	
+	//udp Client
+	private DatagramPacket socketclient;
+	private InetAddress address;
+	
+	private byte[] buf;
+	
+	
+	
 
 	/**
 	 * Konstruktor
@@ -36,9 +47,10 @@ public class SimpleChatServerImpl extends AbstractChatServer {
 	 * @param executorService
 	 * @param socket
 	 * @param serverGuiInterface
+	 * @throws IOException 
 	 */
 	public SimpleChatServerImpl(ExecutorService executorService,
-			ServerSocketInterface socket, ChatServerGuiInterface serverGuiInterface) {
+			ServerSocketInterface socket, ChatServerGuiInterface serverGuiInterface) throws IOException { //Exception hinzugefügt
 		log.debug("SimpleChatServerImpl konstruiert");
 		this.executorService = executorService;
 		this.socket = socket;
@@ -47,6 +59,10 @@ public class SimpleChatServerImpl extends AbstractChatServer {
 		counter.logoutCounter = new AtomicInteger(0);
 		counter.eventCounter = new AtomicInteger(0);
 		counter.confirmCounter = new AtomicInteger(0);
+		
+		//udp
+		socketclient = new DatagramPacket(buf, 0);
+		address = InetAddress.getByName("localhost");
 	}
 
 	@Override
@@ -117,4 +133,6 @@ public class SimpleChatServerImpl extends AbstractChatServer {
 
 		System.out.println("SimpleChatServer beendet sich");
 	}
+	
+	
 }
