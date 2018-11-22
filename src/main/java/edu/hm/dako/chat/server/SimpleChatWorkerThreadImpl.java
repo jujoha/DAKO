@@ -133,13 +133,13 @@ public class SimpleChatWorkerThreadImpl extends AbstractWorkerThread {
 			// anfragenden) senden
 			
 			
-			/*try {
+			try {
 				sendEcho("jaaaaaaaaaaaaaaaaaa");
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			*/
+			
 			
 
 			Vector<String> clientList = clients.getClientNameList();

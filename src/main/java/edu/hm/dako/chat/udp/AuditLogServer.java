@@ -17,10 +17,11 @@ public class AuditLogServer extends Thread {
     public static void main(String[] args) throws SocketException {
     	AuditLogServer test = new AuditLogServer();
     	test.run();
-    	System.out.println("angelegt");
+    	
     }
  
     public void run() {
+    	System.out.println("Audit Server gestartet");
         running = true;
  
         while (running) {
