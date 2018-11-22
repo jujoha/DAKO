@@ -13,6 +13,12 @@ public class AuditLogServer extends Thread {
     public AuditLogServer() throws SocketException {
         socket = new DatagramSocket(4445);
     }
+    
+    public static void main(String[] args) throws SocketException {
+    	AuditLogServer test = new AuditLogServer();
+    	test.run();
+    	System.out.println("angelegt");
+    }
  
     public void run() {
         running = true;
@@ -22,6 +28,7 @@ public class AuditLogServer extends Thread {
               = new DatagramPacket(buf, buf.length);
             try {
 				socket.receive(packet);
+				System.out.println(packet.toString());
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

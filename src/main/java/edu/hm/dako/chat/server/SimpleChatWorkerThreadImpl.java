@@ -1,5 +1,11 @@
 package edu.hm.dako.chat.server;
 
+import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.SocketException;
+import java.net.UnknownHostException;
 import java.util.Vector;
 
 import org.apache.commons.logging.Log;
@@ -23,11 +29,25 @@ import edu.hm.dako.chat.connection.EndOfFileException;
 public class SimpleChatWorkerThreadImpl extends AbstractWorkerThread {
 
 	private static Log log = LogFactory.getLog(SimpleChatWorkerThreadImpl.class);
+	
+	
+	//udp Client
+		private DatagramSocket socketclient;
+		private InetAddress address;
+		
+		private byte[] buf;
+		
+		
+		
 
 	public SimpleChatWorkerThreadImpl(Connection con, SharedChatClientList clients,
-			SharedServerCounter counter, ChatServerGuiInterface serverGuiInterface) {
+			SharedServerCounter counter, ChatServerGuiInterface serverGuiInterface) throws SocketException, IOException {
 
 		super(con, clients, counter, serverGuiInterface);
+		
+		//udp
+				socketclient = new DatagramSocket();
+				address = InetAddress.getByName("localhost");
 	}
 
 	@Override
@@ -111,6 +131,16 @@ public class SimpleChatWorkerThreadImpl extends AbstractWorkerThread {
 
 			// Login-Event an alle Clients (auch an den gerade aktuell
 			// anfragenden) senden
+			
+			
+			/*try {
+				sendEcho("jaaaaaaaaaaaaaaaaaa");
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			*/
+			
 
 			Vector<String> clientList = clients.getClientNameList();
 			pdu = ChatPDU.createLoginEventPdu(userName, clientList, receivedPdu);
@@ -453,4 +483,18 @@ public class SimpleChatWorkerThreadImpl extends AbstractWorkerThread {
 			ExceptionHandler.logExceptionAndTerminate(e);
 		}
 	}
+	
+	//udp send methode
+		public String sendEcho(String msg) throws IOException {
+	        buf = msg.getBytes();
+	        DatagramPacket packet 
+	          = new DatagramPacket(buf, buf.length, address, 4445);
+	        socketclient.send(packet);
+	        packet = new DatagramPacket(buf, buf.length);
+	        socketclient.receive(packet);
+	        String received = new String(
+	          packet.getData(), 0, packet.getLength());
+	        return received;
+	    }
+		
 }
