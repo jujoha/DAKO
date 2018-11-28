@@ -1,6 +1,10 @@
 package edu.hm.dako.chat.server;
 
+import edu.hm.dako.chat.udp.*;
+
+import java.net.SocketException;
 import java.text.SimpleDateFormat;
+
 import java.util.Calendar;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -44,6 +48,7 @@ import javafx.stage.Stage;
 public class ChatServerGUI extends Application implements ChatServerGuiInterface {
 
 	private static Log log = LogFactory.getLog(ChatServerGUI.class);
+	
 
 	// Standard-Port des Servers
 	static final String DEFAULT_SERVER_PORT = "50000";
@@ -90,6 +95,8 @@ public class ChatServerGUI extends Application implements ChatServerGuiInterface
 	private Button startButton;
 	private Button stopButton;
 	private Button finishButton;
+	private Button closeLogButton;
+	private Button startLogButton;
 
 	// Zaehler fuer die eingeloggten Clients und die empfangenen Request
 	private static AtomicInteger loggedInClientCounter;
@@ -101,22 +108,28 @@ public class ChatServerGUI extends Application implements ChatServerGuiInterface
 	// Moegliche Belegungen des Implementierungsfeldes in der GUI
 	ObservableList<String> implTypeOptions = FXCollections.observableArrayList(
 			SystemConstants.IMPL_TCP_SIMPLE);
+	AuditLogServer audit;
+	
 
 	/**
-	 * Konstruktion der ServerGUI
+	 * Konstruktion der ServerGUI 
+	 * @throws SocketException 
 	 */
-	public ChatServerGUI() {
+	public ChatServerGUI() throws SocketException  {
 		loggedInClientCounter = new AtomicInteger(0);
 		requestCounter = new AtomicInteger(0);
 		startTimeField = createNotEditableTextfield("");
 		receivedRequests = createNotEditableTextfield("");
 		loggedInClients = createNotEditableTextfield("");
-
+		audit = new AuditLogServer();
+		
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws SocketException {
 		PropertyConfigurator.configureAndWatch("log4j.server.properties", 60 * 1000);
 		launch(args);
+		
+
 	}
 
 	@Override
@@ -152,7 +165,11 @@ public class ChatServerGUI extends Application implements ChatServerGuiInterface
 		reactOnStartButton();
 		reactOnStopButton();
 		reactOnFinishButton();
+		reactOnStartLogButton();
+		reactOnCloseLogButton();
+		
 		stopButton.setDisable(true);
+		closeLogButton.setDisable(true);
 	}
 
 	/**
@@ -223,8 +240,10 @@ public class ChatServerGUI extends Application implements ChatServerGuiInterface
 		startButton = new Button("Server starten");
 		stopButton = new Button("Server stoppen");
 		finishButton = new Button("Beenden");
+		startLogButton = new Button ("Log starten");
+		closeLogButton = new Button("Log stoppen");
 
-		buttonPane.getChildren().addAll(startButton, stopButton, finishButton);
+		buttonPane.getChildren().addAll(startButton, stopButton, finishButton, startLogButton, closeLogButton);
 		buttonPane.setAlignment(Pos.CENTER);
 		return buttonPane;
 	}
@@ -417,6 +436,44 @@ public class ChatServerGUI extends Application implements ChatServerGuiInterface
 			}
 		});
 	}
+	
+	
+	
+	private void reactOnStartLogButton() {
+		startLogButton.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				
+					
+						
+						audit.start();
+					
+					
+					startLogButton.setDisable(true);
+					closeLogButton.setDisable(false);
+					
+				
+				
+			}
+		});
+	}
+	
+	private void reactOnCloseLogButton() {
+		closeLogButton.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+					audit.close();
+					
+					startLogButton.setDisable(false);
+					closeLogButton.setDisable(true);
+					
+				
+				
+			}
+		});
+	}
+	
+	
 
 	/**
 	 * Combobox aus GUI auslesen

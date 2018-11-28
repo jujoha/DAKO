@@ -115,7 +115,12 @@ public class SimpleChatWorkerThreadImpl extends AbstractWorkerThread {
 	@Override
 	protected void loginRequestAction(ChatPDU receivedPdu) {
 
+		//Login Audit
+		AuditLogPDU audit;
+		audit=AuditLogPDU.createLoginEventPdu(receivedPdu.getUserName(), receivedPdu);
+		auditClient.sendAudit(audit);
 		ChatPDU pdu;
+		
 		log.debug("Login-Request-PDU fuer " + receivedPdu.getUserName() + " empfangen");
 
 		// Neuer Client moechte sich einloggen, Client in Client-Liste
@@ -140,9 +145,7 @@ public class SimpleChatWorkerThreadImpl extends AbstractWorkerThread {
 			
 			
 			
-				AuditLogPDU audit;
-				audit=AuditLogPDU.createLoginEventPdu(receivedPdu.getUserName(), receivedPdu);
-				auditClient.sendAudit(audit);
+				
 				
 			
 			
@@ -186,6 +189,11 @@ public class SimpleChatWorkerThreadImpl extends AbstractWorkerThread {
 	@Override
 	protected void logoutRequestAction(ChatPDU receivedPdu) {
 
+		// Logout Audit
+		AuditLogPDU audit;
+		audit=AuditLogPDU.createLogoutEventPdu(receivedPdu.getUserName(), receivedPdu);
+		auditClient.sendAudit(audit);
+		
 		ChatPDU pdu;
 		logoutCounter.getAndIncrement();
 		log.debug("Logout-Request von " + receivedPdu.getUserName() + ", LogoutCount = "
@@ -237,7 +245,7 @@ public class SimpleChatWorkerThreadImpl extends AbstractWorkerThread {
 	@Override
 	protected void chatMessageRequestAction(ChatPDU receivedPdu) {
 		
-		
+		//Message Audit
 			AuditLogPDU audit;
 			audit=AuditLogPDU.createChatMessageEventPdu(receivedPdu.getUserName(), receivedPdu);
 			System.out.println(receivedPdu.getMessage());

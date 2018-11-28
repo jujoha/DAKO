@@ -23,7 +23,9 @@ public class AuditLogServer extends Thread {
     	
     }
     
-    
+    public void startLog() {
+    	this.run();
+    }
     
     public void run() {
     	System.out.println("Audit Server gestartet");
@@ -33,6 +35,13 @@ public class AuditLogServer extends Thread {
     	AuditLogPDU ausgabe= (AuditLogPDU) recvLog();
     	System.out.println(ausgabe.toString());
         }
+        socket.close();
+    }
+    
+    public void close() {
+    	running=false;
+ 
+    	System.out.println("Log Beendet");
     }
     
     
