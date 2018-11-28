@@ -1,5 +1,7 @@
 package edu.hm.dako.chat.server;
 
+
+
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -11,6 +13,7 @@ import java.util.Vector;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import edu.hm.dako.chat.common.AuditLogPDU;
 import edu.hm.dako.chat.common.ChatPDU;
 import edu.hm.dako.chat.common.ClientConversationStatus;
 import edu.hm.dako.chat.common.ClientListEntry;
@@ -30,24 +33,28 @@ public class SimpleChatWorkerThreadImpl extends AbstractWorkerThread {
 
 	private static Log log = LogFactory.getLog(SimpleChatWorkerThreadImpl.class);
 	
-	
+	/*
 	//udp Client
 		private DatagramSocket socketclient;
 		private InetAddress address;
 		
 		private byte[] buf;
-		
-		
+	*/	
+	UdpClient auditClient;	
 		
 
 	public SimpleChatWorkerThreadImpl(Connection con, SharedChatClientList clients,
 			SharedServerCounter counter, ChatServerGuiInterface serverGuiInterface) throws SocketException, IOException {
 
 		super(con, clients, counter, serverGuiInterface);
+		auditClient= new UdpClient();
 		
+		
+		/*
 		//udp
 				socketclient = new DatagramSocket();
 				address = InetAddress.getByName("localhost");
+		*/		
 	}
 
 	@Override
@@ -134,7 +141,10 @@ public class SimpleChatWorkerThreadImpl extends AbstractWorkerThread {
 			
 			
 			try {
-				sendEcho("jaaaaaaaaaaaaaaaaaa");
+				AuditLogPDU audit;
+				audit=AuditLogPDU.createLoginEventPdu(receivedPdu.getUserName(), receivedPdu);
+				auditClient.sendEcho(audit);
+				
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -231,6 +241,17 @@ public class SimpleChatWorkerThreadImpl extends AbstractWorkerThread {
 
 	@Override
 	protected void chatMessageRequestAction(ChatPDU receivedPdu) {
+		
+		try {
+			AuditLogPDU audit;
+			audit=AuditLogPDU.createChatMessageEventPdu(receivedPdu.getUserName(), receivedPdu);
+			System.out.println(receivedPdu.getMessage());
+			auditClient.sendEcho(audit);
+			
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 
 		ClientListEntry client = null;
 		clients.setRequestStartTime(receivedPdu.getUserName(), startTime);
@@ -485,8 +506,8 @@ public class SimpleChatWorkerThreadImpl extends AbstractWorkerThread {
 	}
 	
 	//udp send methode
-		public String sendEcho(String msg) throws IOException {
-	        buf = msg.getBytes();
+	/*	public String sendEcho(AuditLogPDU audit) throws IOException {
+			buf = audit.getBytes(audit);
 	        DatagramPacket packet 
 	          = new DatagramPacket(buf, buf.length, address, 4445);
 	        socketclient.send(packet);
@@ -496,5 +517,5 @@ public class SimpleChatWorkerThreadImpl extends AbstractWorkerThread {
 	          packet.getData(), 0, packet.getLength());
 	        return received;
 	    }
-		
+	*/	
 }

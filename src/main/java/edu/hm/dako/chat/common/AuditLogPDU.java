@@ -1,10 +1,11 @@
 package edu.hm.dako.chat.common;
 
+import java.io.Serializable;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
 
-public class AuditLogPDU {
+public class AuditLogPDU implements Serializable {
 
 	// Kommandos bzw. PDU-Typen
 	private PduType pduType;
@@ -120,6 +121,12 @@ public class AuditLogPDU {
 			this.errorCode = code;
 		}
 		
+		public byte[] getBytes(AuditLogPDU audit) {
+			return audit.toString().getBytes();
+			
+			
+		}
+		
 		/**
 		 * Erzeugen einer Logout-Event-PDU
 		 * 
@@ -129,7 +136,7 @@ public class AuditLogPDU {
 		 *          Empfangene PDU (Logout-Request-PDU)
 		 * @return Erzeugte PDU
 		 */
-		public static AuditLogPDU createLogoutEventPdu(String userName, AuditLogPDU receivedPdu) {
+		public static AuditLogPDU createLogoutEventPdu(String userName, ChatPDU receivedPdu) {
 
 			AuditLogPDU pdu = new AuditLogPDU();
 			pdu.setPduType(PduType.LOGOUT_EVENT);
@@ -151,7 +158,7 @@ public class AuditLogPDU {
 		 *          Empfangene PDU (Login-Request-PDU)
 		 * @return Erzeugte PDU
 		 */
-		public static AuditLogPDU createLoginEventPdu(String userName, AuditLogPDU receivedPdu) {
+		public static AuditLogPDU createLoginEventPdu(String userName, ChatPDU receivedPdu) {
 
 			AuditLogPDU pdu = new AuditLogPDU();
 			pdu.setPduType(PduType.LOGIN_EVENT);
@@ -171,7 +178,7 @@ public class AuditLogPDU {
 		 *          Empfangene PDU
 		 * @return Erzeugte PDU
 		 */
-		public static AuditLogPDU createLoginResponsePdu(String eventInitiator, AuditLogPDU receivedPdu) {
+		public static AuditLogPDU createLoginResponsePdu(String eventInitiator, ChatPDU receivedPdu) {
 
 			AuditLogPDU pdu = new AuditLogPDU();
 			pdu.setPduType(PduType.LOGIN_RESPONSE);
@@ -191,7 +198,7 @@ public class AuditLogPDU {
 		 *          (Chat-Message-Request-PDU)
 		 * @return Erzeugte PDU
 		 */
-		public static AuditLogPDU createChatMessageEventPdu(String userName, AuditLogPDU receivedPdu) {
+		public static AuditLogPDU createChatMessageEventPdu(String userName, ChatPDU receivedPdu) {
 
 			AuditLogPDU pdu = new AuditLogPDU();
 			pdu.setPduType(PduType.CHAT_MESSAGE_EVENT);
@@ -271,7 +278,7 @@ public class AuditLogPDU {
 		 *          Fehlercode, der in der PDU uebertragen werden soll
 		 * @return Erzeugte PDU
 		 */
-		public static AuditLogPDU createLoginErrorResponsePdu(AuditLogPDU receivedPdu, int errorCode) {
+		public static AuditLogPDU createLoginErrorResponsePdu(ChatPDU receivedPdu, int errorCode) {
 
 			AuditLogPDU pdu = new AuditLogPDU();
 			pdu.setPduType(PduType.LOGIN_RESPONSE);

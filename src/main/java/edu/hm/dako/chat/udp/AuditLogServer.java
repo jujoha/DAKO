@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.net.*
 ;
 
+import edu.hm.dako.chat.common.AuditLogPDU;
+
 public class AuditLogServer extends Thread {
 	
 	private DatagramSocket socket;
@@ -28,8 +30,13 @@ public class AuditLogServer extends Thread {
             DatagramPacket packet 
               = new DatagramPacket(buf, buf.length);
             try {
+            	
 				socket.receive(packet);
-				System.out.println(packet.getAddress().toString());
+				System.out.println(packet.getData());
+				
+				//System.out.println(packet.getAddress().toString());
+				//AuditLogPDU audit = newAuditLogPDU(packet);
+				;
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
