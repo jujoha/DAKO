@@ -1,8 +1,9 @@
 package edu.hm.dako.chat.udp;
 
 import java.io.IOException;
-import java.net.*
-;
+import java.io.*;
+import java.net.*;
+
 
 import edu.hm.dako.chat.common.AuditLogPDU;
 
@@ -10,7 +11,7 @@ public class AuditLogServer extends Thread {
 	
 	private DatagramSocket socket;
     private boolean running;
-    private byte[] buf = new byte[256];
+    
  
     public AuditLogServer() throws SocketException {
         socket = new DatagramSocket(4445);
@@ -21,8 +22,46 @@ public class AuditLogServer extends Thread {
     	test.run();
     	
     }
- 
+    
+    
+    
     public void run() {
+    	System.out.println("Audit Server gestartet");
+        running = true;
+ 
+        while (running) {
+    	AuditLogPDU ausgabe= (AuditLogPDU) recvLog();
+    	System.out.println(ausgabe.toString());
+        }
+    }
+    
+    
+    public Object recvLog()  
+    {    try
+        {
+          byte[] recvBuf = new byte[5000];
+          DatagramPacket packet = new DatagramPacket(recvBuf,
+                                                     recvBuf.length);
+          socket.receive(packet);
+          
+          ByteArrayInputStream byteStream = new
+                                      ByteArrayInputStream(recvBuf);
+          ObjectInputStream is = new
+               ObjectInputStream(new BufferedInputStream(byteStream));
+          Object o = is.readObject();
+          is.close();
+          return(o);
+        }
+        catch (IOException e)
+        {
+          System.err.println("Exception:  " + e);
+          e.printStackTrace();
+        }
+        catch (ClassNotFoundException e)
+        { e.printStackTrace(); }
+        return(null);  }
+ 
+   /* public void run() {
     	System.out.println("Audit Server gestartet");
         running = true;
  
@@ -61,6 +100,7 @@ public class AuditLogServer extends Thread {
         }
         socket.close();
     }
+    */
 }
 
 

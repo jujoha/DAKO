@@ -1,11 +1,8 @@
 package edu.hm.dako.chat.server;
 
-import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.SocketException;
-import java.net.UnknownHostException;
+import java.io.*;
+
+import java.net.*;
 
 import edu.hm.dako.chat.common.AuditLogPDU;
 
@@ -34,5 +31,33 @@ public class UdpClient {
           packet.getData(), 0, packet.getLength());
         return received;
     }
+	
+	public void sendAudit(Object o)  
+	{    try    
+	{      
+	      ByteArrayOutputStream byteStream = new
+	          ByteArrayOutputStream(5000);
+	      ObjectOutputStream os = new ObjectOutputStream(new
+	                              BufferedOutputStream(byteStream));
+	      os.flush();
+	      os.writeObject(o);
+	      os.flush();
+	      //retrieves byte array
+	      byte[] sendBuf = byteStream.toByteArray();
+	      DatagramPacket packet = new DatagramPacket(
+	                          sendBuf, sendBuf.length, address, 4445);
+	      
+	      socketclient.send(packet);
+	      os.close();
+	    }
+	    catch (UnknownHostException e)
+	    {
+	      System.err.println("Exception:  " + e);
+	      e.printStackTrace();    }
+	    catch (IOException e)    { e.printStackTrace();
+	 }
+	  }
+	}
 
-}
+
+

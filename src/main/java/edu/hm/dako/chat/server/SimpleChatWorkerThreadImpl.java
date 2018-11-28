@@ -3,11 +3,10 @@ package edu.hm.dako.chat.server;
 
 
 import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
+
+
 import java.net.SocketException;
-import java.net.UnknownHostException;
+
 import java.util.Vector;
 
 import org.apache.commons.logging.Log;
@@ -140,15 +139,11 @@ public class SimpleChatWorkerThreadImpl extends AbstractWorkerThread {
 			// anfragenden) senden
 			
 			
-			try {
+			
 				AuditLogPDU audit;
 				audit=AuditLogPDU.createLoginEventPdu(receivedPdu.getUserName(), receivedPdu);
-				auditClient.sendEcho(audit);
+				auditClient.sendAudit(audit);
 				
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
 			
 			
 
@@ -242,16 +237,13 @@ public class SimpleChatWorkerThreadImpl extends AbstractWorkerThread {
 	@Override
 	protected void chatMessageRequestAction(ChatPDU receivedPdu) {
 		
-		try {
+		
 			AuditLogPDU audit;
 			audit=AuditLogPDU.createChatMessageEventPdu(receivedPdu.getUserName(), receivedPdu);
 			System.out.println(receivedPdu.getMessage());
-			auditClient.sendEcho(audit);
+			auditClient.sendAudit(audit);
 			
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		
 
 		ClientListEntry client = null;
 		clients.setRequestStartTime(receivedPdu.getUserName(), startTime);
