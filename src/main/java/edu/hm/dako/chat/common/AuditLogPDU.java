@@ -50,6 +50,10 @@ public class AuditLogPDU implements Serializable {
 			this.message = message;
 		}
 		
+		public String toString(PduType typ) {
+			return "Typ: " + typ;
+		}
+		
 		public String toString() {
 
 			return "\n"
@@ -59,7 +63,7 @@ public class AuditLogPDU implements Serializable {
 					+ "clientThreadName: " + this.clientThreadName + ", " + "\n"
 					+ "serverThreadName: " + this.serverThreadName + ", " + "\n" 
 					+ "errrorCode: " + this.errorCode + ", " + "\n"
-					+ "timesamp: " + this.timestamp + ", " + "\n"
+					+ "timestamp: " + this.timestamp + ", " + "\n"
 					+ "message: " + this.message + "\n"
 					+ "**************************************************************************************************** ChatPdu"
 					+ "\n";
@@ -286,6 +290,16 @@ public class AuditLogPDU implements Serializable {
 			pdu.setServerThreadName(Thread.currentThread().getName());
 			pdu.setClientThreadName(receivedPdu.getClientThreadName());
 			pdu.setErrorCode(errorCode);
+			return pdu;
+		}
+		
+		
+		
+		public static AuditLogPDU createShutdownPdu() {
+
+			AuditLogPDU pdu = new AuditLogPDU();
+			
+			pdu.setPduType(PduType.AUDIT_END);
 			return pdu;
 		}
 

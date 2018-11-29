@@ -3,6 +3,7 @@ package edu.hm.dako.chat.server;
 import edu.hm.dako.chat.udp.*;
 
 import java.net.SocketException;
+import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 
 import java.util.Calendar;
@@ -13,6 +14,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.log4j.PropertyConfigurator;
 
+import edu.hm.dako.chat.common.AuditLogPDU;
+import edu.hm.dako.chat.common.ChatPDU;
 import edu.hm.dako.chat.common.ExceptionHandler;
 import edu.hm.dako.chat.common.ImplementationType;
 import edu.hm.dako.chat.common.SystemConstants;
@@ -38,6 +41,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+
+import edu.hm.dako.chat.server.*;
 
 /**
  * Benutzeroberflaeche zum Starten des Chat-Servers
@@ -109,19 +114,22 @@ public class ChatServerGUI extends Application implements ChatServerGuiInterface
 	ObservableList<String> implTypeOptions = FXCollections.observableArrayList(
 			SystemConstants.IMPL_TCP_SIMPLE);
 	AuditLogServer audit;
+	UdpClient auditClient;
 	
 
 	/**
 	 * Konstruktion der ServerGUI 
 	 * @throws SocketException 
+	 * @throws UnknownHostException 
 	 */
-	public ChatServerGUI() throws SocketException  {
+	public ChatServerGUI() throws SocketException, UnknownHostException  {
 		loggedInClientCounter = new AtomicInteger(0);
 		requestCounter = new AtomicInteger(0);
 		startTimeField = createNotEditableTextfield("");
 		receivedRequests = createNotEditableTextfield("");
 		loggedInClients = createNotEditableTextfield("");
 		audit = new AuditLogServer();
+		auditClient= new UdpClient();
 		
 	}
 
@@ -462,7 +470,10 @@ public class ChatServerGUI extends Application implements ChatServerGuiInterface
 		closeLogButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-					audit.close();
+				AuditLogPDU audit;
+				audit=AuditLogPDU.createShutdownPdu();
+				auditClient.sendAudit(audit);
+				
 					
 					startLogButton.setDisable(false);
 					closeLogButton.setDisable(true);

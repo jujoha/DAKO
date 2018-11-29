@@ -14,7 +14,7 @@ public class AuditLogServer extends Thread {
     
  
     public AuditLogServer() throws SocketException {
-        socket = new DatagramSocket(4445);
+       // socket = new DatagramSocket(4445);
     }
     
     public static void main(String[] args) throws SocketException {
@@ -28,14 +28,31 @@ public class AuditLogServer extends Thread {
     }
     
     public void run() {
+    	try {
+			socket = new DatagramSocket(4445);
+		} catch (SocketException e) {
+			// TODO Auto-generated catch block
+			System.out.println("Socket kann nicht erstellt werden");
+			e.printStackTrace();
+		}
     	System.out.println("Audit Server gestartet");
         running = true;
  
         while (running) {
     	AuditLogPDU ausgabe= (AuditLogPDU) recvLog();
     	System.out.println(ausgabe.toString());
+    	
+    	
+    	
+    	if (ausgabe.toString(ausgabe.getPduType()).equals ("Typ: AUDIT-End")) {
+            running = false;
+            continue;
+        }
+    	
         }
         socket.close();
+        System.out.println("socket geschlossen");
+      Thread.currentThread().interrupt();
     }
     
     public void close() {
@@ -70,46 +87,7 @@ public class AuditLogServer extends Thread {
         { e.printStackTrace(); }
         return(null);  }
  
-   /* public void run() {
-    	System.out.println("Audit Server gestartet");
-        running = true;
- 
-        while (running) {
-            DatagramPacket packet 
-              = new DatagramPacket(buf, buf.length);
-            try {
-            	
-				socket.receive(packet);
-				System.out.println(packet.getData());
-				
-				//System.out.println(packet.getAddress().toString());
-				//AuditLogPDU audit = newAuditLogPDU(packet);
-				;
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-             
-            InetAddress address = packet.getAddress();
-            int port = packet.getPort();
-            packet = new DatagramPacket(buf, buf.length, address, port);
-            String received 
-              = new String(packet.getData(), 0, packet.getLength());
-             
-            if (received.equals("end")) {
-                running = false;
-                continue;
-            }
-            try {
-				socket.send(packet);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-        }
-        socket.close();
-    }
-    */
+   
 }
 
 
