@@ -20,7 +20,7 @@ public class UdpClient {
 	
 	}
 	
-	public String sendEcho(AuditLogPDU audit) throws IOException {
+	/*public String sendEcho(AuditLogPDU audit) throws IOException {
 		buf = audit.getBytes(audit);
         DatagramPacket packet 
           = new DatagramPacket(buf, buf.length, address, 4445);
@@ -31,6 +31,7 @@ public class UdpClient {
           packet.getData(), 0, packet.getLength());
         return received;
     }
+    */
 	
 	public void sendAudit(Object o)  
 	{    try    

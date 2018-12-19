@@ -113,7 +113,8 @@ public class ChatServerGUI extends Application implements ChatServerGuiInterface
 	// Moegliche Belegungen des Implementierungsfeldes in der GUI
 	ObservableList<String> implTypeOptions = FXCollections.observableArrayList(
 			SystemConstants.IMPL_TCP_SIMPLE);
-	AuditLogServer audit;
+	
+	//AuditLogServer audit;
 	UdpClient auditClient;
 	
 
@@ -128,7 +129,7 @@ public class ChatServerGUI extends Application implements ChatServerGuiInterface
 		startTimeField = createNotEditableTextfield("");
 		receivedRequests = createNotEditableTextfield("");
 		loggedInClients = createNotEditableTextfield("");
-		audit = new AuditLogServer();
+		//audit = new AuditLogServer();
 		auditClient= new UdpClient();
 		
 	}
@@ -173,11 +174,11 @@ public class ChatServerGUI extends Application implements ChatServerGuiInterface
 		reactOnStartButton();
 		reactOnStopButton();
 		reactOnFinishButton();
-		reactOnStartLogButton();
+		
 		reactOnCloseLogButton();
 		
 		stopButton.setDisable(true);
-		closeLogButton.setDisable(true);
+		//closeLogButton.setDisable(true);
 	}
 
 	/**
@@ -248,10 +249,10 @@ public class ChatServerGUI extends Application implements ChatServerGuiInterface
 		startButton = new Button("Server starten");
 		stopButton = new Button("Server stoppen");
 		finishButton = new Button("Beenden");
-		startLogButton = new Button ("Log starten");
+		
 		closeLogButton = new Button("Log stoppen");
 
-		buttonPane.getChildren().addAll(startButton, stopButton, finishButton, startLogButton, closeLogButton);
+		buttonPane.getChildren().addAll(startButton, stopButton, finishButton, closeLogButton);
 		buttonPane.setAlignment(Pos.CENTER);
 		return buttonPane;
 	}
@@ -447,24 +448,8 @@ public class ChatServerGUI extends Application implements ChatServerGuiInterface
 	
 	
 	
-	private void reactOnStartLogButton() {
-		startLogButton.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				
-					
-						
-						audit.start();
-					
-					
-					startLogButton.setDisable(true);
-					closeLogButton.setDisable(false);
-					
-				
-				
-			}
-		});
-	}
+	
+	
 	
 	private void reactOnCloseLogButton() {
 		closeLogButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -473,10 +458,16 @@ public class ChatServerGUI extends Application implements ChatServerGuiInterface
 				AuditLogPDU audit;
 				audit=AuditLogPDU.createShutdownPdu();
 				auditClient.sendAudit(audit);
+				try {
+					SimpleChatWorkerThreadImpl.tcpconnection.send(audit);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				
 					
-					startLogButton.setDisable(false);
-					closeLogButton.setDisable(true);
+				//	startLogButton.setDisable(false);
+				//	closeLogButton.setDisable(true);
 					
 				
 				

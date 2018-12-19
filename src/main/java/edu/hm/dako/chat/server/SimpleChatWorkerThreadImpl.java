@@ -18,8 +18,11 @@ import edu.hm.dako.chat.common.ClientConversationStatus;
 import edu.hm.dako.chat.common.ClientListEntry;
 import edu.hm.dako.chat.common.ExceptionHandler;
 import edu.hm.dako.chat.connection.Connection;
+import edu.hm.dako.chat.connection.ConnectionFactory;
 import edu.hm.dako.chat.connection.ConnectionTimeoutException;
 import edu.hm.dako.chat.connection.EndOfFileException;
+import edu.hm.dako.chat.tcp.TcpConnection;
+import edu.hm.dako.chat.tcp.TcpConnectionFactory;
 
 /**
  * Worker-Thread zur serverseitigen Bedienung einer Session mit einem Client.
@@ -39,15 +42,25 @@ public class SimpleChatWorkerThreadImpl extends AbstractWorkerThread {
 		
 		private byte[] buf;
 	*/	
-	UdpClient auditClient;	
+	UdpClient auditClient;
+	TcpConnectionFactory connectionFactory;
+	static TcpConnection tcpconnection;
+	
 		
 
 	public SimpleChatWorkerThreadImpl(Connection con, SharedChatClientList clients,
 			SharedServerCounter counter, ChatServerGuiInterface serverGuiInterface) throws SocketException, IOException {
 
 		super(con, clients, counter, serverGuiInterface);
+		
 		auditClient= new UdpClient();
 		
+		
+		connectionFactory = new TcpConnectionFactory();
+		
+		
+		tcpconnection= (TcpConnection) connectionFactory.connectToServer( "127.0.0.1" , 6789, 6788, 20000, 20000);
+	
 		
 		/*
 		//udp
@@ -119,8 +132,21 @@ public class SimpleChatWorkerThreadImpl extends AbstractWorkerThread {
 		AuditLogPDU audit;
 		audit=AuditLogPDU.createLoginEventPdu(receivedPdu.getUserName(), receivedPdu);
 		auditClient.sendAudit(audit);
-		ChatPDU pdu;
 		
+		 
+		
+		try {
+			tcpconnection.send(audit);
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			System.out.println("kein TCPlog gestartet");
+			
+			
+		}
+	
+		
+		
+		ChatPDU pdu;
 		log.debug("Login-Request-PDU fuer " + receivedPdu.getUserName() + " empfangen");
 
 		// Neuer Client moechte sich einloggen, Client in Client-Liste
@@ -193,6 +219,12 @@ public class SimpleChatWorkerThreadImpl extends AbstractWorkerThread {
 		AuditLogPDU audit;
 		audit=AuditLogPDU.createLogoutEventPdu(receivedPdu.getUserName(), receivedPdu);
 		auditClient.sendAudit(audit);
+		try {
+			tcpconnection.send(audit);
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		
 		ChatPDU pdu;
 		logoutCounter.getAndIncrement();
@@ -250,6 +282,12 @@ public class SimpleChatWorkerThreadImpl extends AbstractWorkerThread {
 			audit=AuditLogPDU.createChatMessageEventPdu(receivedPdu.getUserName(), receivedPdu);
 			System.out.println(receivedPdu.getMessage());
 			auditClient.sendAudit(audit);
+			try {
+				tcpconnection.send(audit);
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			
 		
 
