@@ -45,7 +45,8 @@ public class SimpleChatWorkerThreadImpl extends AbstractWorkerThread {
 	UdpClient auditClient;
 	TcpConnectionFactory connectionFactory;
 	static TcpConnection tcpconnection;
-	
+	static boolean tcp= false;
+	static boolean udp= false;
 		
 
 	public SimpleChatWorkerThreadImpl(Connection con, SharedChatClientList clients,
@@ -53,14 +54,18 @@ public class SimpleChatWorkerThreadImpl extends AbstractWorkerThread {
 
 		super(con, clients, counter, serverGuiInterface);
 		
+		if(udp==true) {
+		
 		auditClient= new UdpClient();
+		}
 		
 		
+		if(tcp== true) {
 		connectionFactory = new TcpConnectionFactory();
 		
 		
 		tcpconnection= (TcpConnection) connectionFactory.connectToServer( "127.0.0.1" , 6789, 6788, 20000, 20000);
-	
+		}
 		
 		/*
 		//udp
@@ -131,9 +136,12 @@ public class SimpleChatWorkerThreadImpl extends AbstractWorkerThread {
 		//Login Audit
 		AuditLogPDU audit;
 		audit=AuditLogPDU.createLoginEventPdu(receivedPdu.getUserName(), receivedPdu);
-		auditClient.sendAudit(audit);
 		
-		 
+		if(udp==true) {
+		auditClient.sendAudit(audit);
+		}
+		
+		 if(tcp==true) {
 		
 		try {
 			tcpconnection.send(audit);
@@ -144,7 +152,7 @@ public class SimpleChatWorkerThreadImpl extends AbstractWorkerThread {
 			
 		}
 	
-		
+		 }
 		
 		ChatPDU pdu;
 		log.debug("Login-Request-PDU fuer " + receivedPdu.getUserName() + " empfangen");
@@ -218,12 +226,18 @@ public class SimpleChatWorkerThreadImpl extends AbstractWorkerThread {
 		// Logout Audit
 		AuditLogPDU audit;
 		audit=AuditLogPDU.createLogoutEventPdu(receivedPdu.getUserName(), receivedPdu);
+		
+		if(udp==true) {
 		auditClient.sendAudit(audit);
+		}
+		
+		if(tcp==true) {
 		try {
 			tcpconnection.send(audit);
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
+		}
 		}
 		
 		ChatPDU pdu;
@@ -280,13 +294,19 @@ public class SimpleChatWorkerThreadImpl extends AbstractWorkerThread {
 		//Message Audit
 			AuditLogPDU audit;
 			audit=AuditLogPDU.createChatMessageEventPdu(receivedPdu.getUserName(), receivedPdu);
-			System.out.println(receivedPdu.getMessage());
+			//System.out.println(receivedPdu.getMessage());
+			
+			if(udp==true) {
 			auditClient.sendAudit(audit);
+			}
+			
+			if(tcp==true) {
 			try {
 				tcpconnection.send(audit);
 			} catch (Exception e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
+			}
 			}
 			
 		
