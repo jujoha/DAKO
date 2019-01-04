@@ -64,7 +64,7 @@ public class SimpleChatWorkerThreadImpl extends AbstractWorkerThread {
 		connectionFactory = new TcpConnectionFactory();
 		
 		
-		tcpconnection= (TcpConnection) connectionFactory.connectToServer( "127.0.0.1" , 6789, 6788, 20000, 20000);
+		tcpconnection= (TcpConnection) connectionFactory.connectToServer( "127.168.1.124" , 6789, 6788, 20000, 20000);
 		}
 		
 		/*
