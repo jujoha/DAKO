@@ -69,13 +69,16 @@ public class AuditLogServer extends Thread {
 			logincount= logincount +1;
 			break;
 
+
 		case LOGOUT_EVENT:
 			logoutcount= logoutcount +1;
-			break;
-
+			
 		case CHAT_MESSAGE_EVENT:
 			messagecount= messagecount +1;
+
 			break;
+
+	
 
 
 		}
