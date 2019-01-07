@@ -459,7 +459,7 @@ public class ChatServerGUI extends Application implements ChatServerGuiInterface
 				audit=AuditLogPDU.createShutdownPdu();
 				auditClient.sendAudit(audit);
 				try {
-					SimpleChatWorkerThreadImpl.tcpconnection.send(audit);
+					SimpleChatServerImpl.tcpconnection.send(audit);
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -474,6 +474,7 @@ public class ChatServerGUI extends Application implements ChatServerGuiInterface
 			}
 		});
 	}
+	
 	
 	
 

@@ -15,7 +15,10 @@ import edu.hm.dako.chat.common.ClientListEntry;
 import edu.hm.dako.chat.common.ExceptionHandler;
 import edu.hm.dako.chat.connection.Connection;
 import edu.hm.dako.chat.connection.ServerSocketInterface;
+import edu.hm.dako.chat.tcp.TcpConnection;
+import edu.hm.dako.chat.tcp.TcpConnectionFactory;
 import javafx.concurrent.Task;
+
 
 /**
  * <p/>
@@ -35,7 +38,9 @@ public class SimpleChatServerImpl extends AbstractChatServer {
 	private ServerSocketInterface socket;
 	
 	
-	
+
+	TcpConnectionFactory connectionFactory;
+	static TcpConnection tcpconnection ;
 	
 	
 
@@ -57,7 +62,11 @@ public class SimpleChatServerImpl extends AbstractChatServer {
 		counter.logoutCounter = new AtomicInteger(0);
 		counter.eventCounter = new AtomicInteger(0);
 		counter.confirmCounter = new AtomicInteger(0);
+		connectionFactory = new TcpConnectionFactory();
 		
+		tcpconnection= (TcpConnection) connectionFactory.connectToServer( "127.0.0.1" , 6789, 6788, 20000, 20000);
+		
+
 		
 	}
 
@@ -77,7 +86,14 @@ public class SimpleChatServerImpl extends AbstractChatServer {
 
 						Connection connection = socket.accept();
 						log.debug("Neuer Verbindungsaufbauwunsch empfangen");
-
+						
+						
+						
+						
+						
+						
+						
+						
 						// Neuen Workerthread starten
 						executorService.submit(new SimpleChatWorkerThreadImpl(connection, clients,
 								counter, serverGuiInterface));

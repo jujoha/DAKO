@@ -43,9 +43,9 @@ public class SimpleChatWorkerThreadImpl extends AbstractWorkerThread {
 		private byte[] buf;
 	*/	
 	UdpClient auditClient;
-	TcpConnectionFactory connectionFactory;
-	static TcpConnection tcpconnection;
-	static boolean tcp= false;
+	//TcpConnectionFactory connectionFactory;
+	//static TcpConnection tcpconnection;
+	static boolean tcp= true;
 	static boolean udp= false;
 		
 
@@ -60,12 +60,13 @@ public class SimpleChatWorkerThreadImpl extends AbstractWorkerThread {
 		}
 		
 		
-		if(tcp== true) {
-		connectionFactory = new TcpConnectionFactory();
+		//if(tcp== true) {
+		//connectionFactory = new TcpConnectionFactory();
+			
 		
 		
-		tcpconnection= (TcpConnection) connectionFactory.connectToServer( "127.168.1.124" , 6789, 6788, 20000, 20000);
-		}
+		//tcpconnection= (TcpConnection) connectionFactory.connectToServer( "127.0.0.1" , 6789, 6788, 20000, 20000);
+		//}
 		
 		/*
 		//udp
@@ -144,7 +145,7 @@ public class SimpleChatWorkerThreadImpl extends AbstractWorkerThread {
 		 if(tcp==true) {
 		
 		try {
-			tcpconnection.send(audit);
+			SimpleChatServerImpl.tcpconnection.send(audit);
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
 			System.out.println("kein TCPlog gestartet");
@@ -233,7 +234,7 @@ public class SimpleChatWorkerThreadImpl extends AbstractWorkerThread {
 		
 		if(tcp==true) {
 		try {
-			tcpconnection.send(audit);
+			SimpleChatServerImpl.tcpconnection.send(audit);
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -302,7 +303,7 @@ public class SimpleChatWorkerThreadImpl extends AbstractWorkerThread {
 			
 			if(tcp==true) {
 			try {
-				tcpconnection.send(audit);
+				SimpleChatServerImpl.tcpconnection.send(audit);
 			} catch (Exception e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();

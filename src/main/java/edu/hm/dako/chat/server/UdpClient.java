@@ -45,6 +45,7 @@ public class UdpClient {
 	      os.flush();
 	      //retrieves byte array
 	      byte[] sendBuf = byteStream.toByteArray();
+	      
 	      DatagramPacket packet = new DatagramPacket(
 	                          sendBuf, sendBuf.length, address, 4445);
 	      
