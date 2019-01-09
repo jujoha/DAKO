@@ -495,6 +495,15 @@ public class ChatServerGUI extends Application implements ChatServerGuiInterface
 		
 				@Override
 				public void handle(ActionEvent event) {
+					try {
+						udpconnection= new UdpClient("localhost");
+					} catch (SocketException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (UnknownHostException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					
 		
 			}
