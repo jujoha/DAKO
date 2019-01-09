@@ -30,20 +30,23 @@ public class BenchmarkingUserInterfaceSimulation implements
   @Override
   public void showResultData(UserInterfaceResultData data) {
 
-    System.out.println("Testende: " + data.getEndTime());
+    /*System.out.println("Testende: " + data.getEndTime());
     System.out.println("Testdauer in s: " + data.getElapsedTime());
 
     System.out.println("Gesendete Requests: "
 	  + data.getNumberOfSentRequests());
     System.out.println("Anzahl Responses: " + data.getNumberOfResponses());
     System.out.println("Anzahl verlorener Responses: "
-	  + data.getNumberOfLostResponses());
+	*/  
+	  
 
     System.out.println("Mittlere RTT in ms: " + data.getMean());
-    System.out.println("Maximale RTT in ms: " + data.getMaximum());
-    System.out.println("Minimale RTT in ms: " + data.getMinimum());
-    System.out.println("Mittlere Serverbearbeitungszeit in ms: "
-	  + data.getAvgServerTime());
+    //System.out.println("Maximale RTT in ms: " + data.getMaximum());
+    //System.out.println("Minimale RTT in ms: " + data.getMinimum());
+   // System.out.println("Mittlere Serverbearbeitungszeit in ms: "
+	 // + data.getAvgServerTime());
+    
+    System.out.println("50%-Quentile " + data.getPercentile50());
 
     System.out.println("Maximale Heap-Belegung in MByte: "
 	  + data.getMaxHeapSize());
