@@ -41,7 +41,11 @@ public class SimpleChatServerImpl extends AbstractChatServer {
 
 	TcpConnectionFactory connectionFactory;
 	static TcpConnection tcpconnection ;
+	static UdpClient udpconnection;
 	
+	boolean tcp=true;
+	boolean udp=true;
+		
 	
 
 	/**
@@ -64,9 +68,13 @@ public class SimpleChatServerImpl extends AbstractChatServer {
 		counter.confirmCounter = new AtomicInteger(0);
 		connectionFactory = new TcpConnectionFactory();
 		
+		if(tcp==true) {
 		tcpconnection= (TcpConnection) connectionFactory.connectToServer( "127.0.0.1" , 6789, 6788, 20000, 20000);
+		}
 		
-
+		if(udp==true) {
+			udpconnection= new UdpClient("localhost");
+		}
 		
 	}
 

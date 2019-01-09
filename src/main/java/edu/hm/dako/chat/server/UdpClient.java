@@ -13,10 +13,10 @@ public class UdpClient {
 	
 	private byte[] buf;
 	
-	public UdpClient() throws SocketException, UnknownHostException {
+	public UdpClient(String ipadress) throws SocketException, UnknownHostException {
 	
 	socketclient = new DatagramSocket();
-	address = InetAddress.getByName("localhost");
+	address = InetAddress.getByName(ipadress);
 	
 	}
 	

@@ -36,11 +36,12 @@ public class AuditLogServer extends Thread {
     	
     }
     
-    public void startLog()  {
+   /* public void startLog()  {
     	this.start();
     	
     	
     }
+    */
    
     
     public void run() {

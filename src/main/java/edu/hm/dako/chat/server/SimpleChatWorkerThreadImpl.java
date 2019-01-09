@@ -42,11 +42,11 @@ public class SimpleChatWorkerThreadImpl extends AbstractWorkerThread {
 		
 		private byte[] buf;
 	*/	
-	UdpClient auditClient;
+	//UdpClient auditClient;
 	//TcpConnectionFactory connectionFactory;
 	//static TcpConnection tcpconnection;
 	static boolean tcp= true;
-	static boolean udp= false;
+	static boolean udp= true;
 		
 
 	public SimpleChatWorkerThreadImpl(Connection con, SharedChatClientList clients,
@@ -54,10 +54,10 @@ public class SimpleChatWorkerThreadImpl extends AbstractWorkerThread {
 
 		super(con, clients, counter, serverGuiInterface);
 		
-		if(udp==true) {
+		/*if(udp==true) {
 		
 		auditClient= new UdpClient();
-		}
+		*/}
 		
 		
 		//if(tcp== true) {
@@ -73,7 +73,7 @@ public class SimpleChatWorkerThreadImpl extends AbstractWorkerThread {
 				socketclient = new DatagramSocket();
 				address = InetAddress.getByName("localhost");
 		*/		
-	}
+	//}
 
 	@Override
 	public void run() {
@@ -139,7 +139,7 @@ public class SimpleChatWorkerThreadImpl extends AbstractWorkerThread {
 		audit=AuditLogPDU.createLoginEventPdu(receivedPdu.getUserName(), receivedPdu);
 		
 		if(udp==true) {
-		auditClient.sendAudit(audit);
+		SimpleChatServerImpl.udpconnection.sendAudit(audit);
 		}
 		
 		 if(tcp==true) {
@@ -229,7 +229,7 @@ public class SimpleChatWorkerThreadImpl extends AbstractWorkerThread {
 		audit=AuditLogPDU.createLogoutEventPdu(receivedPdu.getUserName(), receivedPdu);
 		
 		if(udp==true) {
-		auditClient.sendAudit(audit);
+			SimpleChatServerImpl.udpconnection.sendAudit(audit);
 		}
 		
 		if(tcp==true) {
@@ -298,7 +298,7 @@ public class SimpleChatWorkerThreadImpl extends AbstractWorkerThread {
 			//System.out.println(receivedPdu.getMessage());
 			
 			if(udp==true) {
-			auditClient.sendAudit(audit);
+				SimpleChatServerImpl.udpconnection.sendAudit(audit);
 			}
 			
 			if(tcp==true) {

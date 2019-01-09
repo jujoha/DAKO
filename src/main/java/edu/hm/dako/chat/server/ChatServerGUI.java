@@ -115,7 +115,7 @@ public class ChatServerGUI extends Application implements ChatServerGuiInterface
 			SystemConstants.IMPL_TCP_SIMPLE);
 	
 	//AuditLogServer audit;
-	UdpClient auditClient;
+	//UdpClient auditClient;
 	
 
 	/**
@@ -130,7 +130,7 @@ public class ChatServerGUI extends Application implements ChatServerGuiInterface
 		receivedRequests = createNotEditableTextfield("");
 		loggedInClients = createNotEditableTextfield("");
 		//audit = new AuditLogServer();
-		auditClient= new UdpClient();
+		//auditClient= new UdpClient("localhost");
 		
 	}
 
@@ -457,7 +457,7 @@ public class ChatServerGUI extends Application implements ChatServerGuiInterface
 			public void handle(ActionEvent event) {
 				AuditLogPDU audit;
 				audit=AuditLogPDU.createShutdownPdu();
-				auditClient.sendAudit(audit);
+				SimpleChatServerImpl.udpconnection.sendAudit(audit);
 				try {
 					SimpleChatServerImpl.tcpconnection.send(audit);
 				} catch (Exception e) {

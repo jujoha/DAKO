@@ -14,7 +14,15 @@ public class AuditLogTCP {
 	static int logoutcount;
 	static int messagecount;
 	
-	public static void main(String args[]) throws BindException, IOException {
+	
+	public static void main(String args[]) throws IOException {
+		AuditLogTCP test = new AuditLogTCP();
+		test.run();
+		
+	}
+	
+	public void run() throws IOException {
+		System.out.println("TCP Log gestartet");
 		BufferedWriter writer= new BufferedWriter(new FileWriter("AuditLogTCP.log"));
     	writer.write("Log File:");
 		TcpServerSocket socket= new TcpServerSocket(6789, 8000, 8000);
