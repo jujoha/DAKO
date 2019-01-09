@@ -137,14 +137,14 @@ public class SimpleChatWorkerThreadImpl extends AbstractWorkerThread {
 		AuditLogPDU audit;
 		audit=AuditLogPDU.createLoginEventPdu(receivedPdu.getUserName(), receivedPdu);
 		
-		if(SimpleChatServerImpl.udp==true) {
-		SimpleChatServerImpl.udpconnection.sendAudit(audit);
+		if(ChatServerGUI.udp==true) {
+			ChatServerGUI.udpconnection.sendAudit(audit);
 		}
 		
-		 if(SimpleChatServerImpl.tcp==true) {
+		 if(ChatServerGUI.tcp==true) {
 		
 		try {
-			SimpleChatServerImpl.tcpconnection.send(audit);
+			ChatServerGUI.tcpconnection.send(audit);
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
 			System.out.println("kein TCPlog gestartet");
@@ -227,13 +227,13 @@ public class SimpleChatWorkerThreadImpl extends AbstractWorkerThread {
 		AuditLogPDU audit;
 		audit=AuditLogPDU.createLogoutEventPdu(receivedPdu.getUserName(), receivedPdu);
 		
-		if(SimpleChatServerImpl.udp==true) {
-			SimpleChatServerImpl.udpconnection.sendAudit(audit);
+		if(ChatServerGUI.udp==true) {
+			ChatServerGUI.udpconnection.sendAudit(audit);
 		}
 		
-		if(SimpleChatServerImpl.tcp==true) {
+		if(ChatServerGUI.tcp==true) {
 		try {
-			SimpleChatServerImpl.tcpconnection.send(audit);
+			ChatServerGUI.tcpconnection.send(audit);
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -296,13 +296,13 @@ public class SimpleChatWorkerThreadImpl extends AbstractWorkerThread {
 			audit=AuditLogPDU.createChatMessageEventPdu(receivedPdu.getUserName(), receivedPdu);
 			//System.out.println(receivedPdu.getMessage());
 			
-			if(SimpleChatServerImpl.udp==true) {
-				SimpleChatServerImpl.udpconnection.sendAudit(audit);
+			if(ChatServerGUI.udp==true) {
+				ChatServerGUI.udpconnection.sendAudit(audit);
 			}
 			
-			if(SimpleChatServerImpl.tcp==true) {
+			if(ChatServerGUI.tcp==true) {
 			try {
-				SimpleChatServerImpl.tcpconnection.send(audit);
+				ChatServerGUI.tcpconnection.send(audit);
 			} catch (Exception e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();

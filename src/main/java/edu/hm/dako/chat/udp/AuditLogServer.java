@@ -115,7 +115,7 @@ public class AuditLogServer extends Thread {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-        
+        System.out.println(messagecount);
         System.out.println("socket geschlossen");
      
     }

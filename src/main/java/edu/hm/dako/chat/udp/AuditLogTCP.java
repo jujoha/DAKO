@@ -25,7 +25,7 @@ public class AuditLogTCP {
 		System.out.println("TCP Log gestartet");
 		BufferedWriter writer= new BufferedWriter(new FileWriter("AuditLogTCP.log"));
     	writer.write("Log File:");
-		TcpServerSocket socket= new TcpServerSocket(6789, 8000, 8000);
+		TcpServerSocket socket= new TcpServerSocket(50001, 300000, 300000);
 		AuditLogPDU receivedPdu = null;
 		TcpConnection con= (TcpConnection) socket.accept();
 		
@@ -88,7 +88,7 @@ public class AuditLogTCP {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-	        
+	        System.out.println(messagecount);
 	        System.out.println("socket geschlossen");
 	     
 		}

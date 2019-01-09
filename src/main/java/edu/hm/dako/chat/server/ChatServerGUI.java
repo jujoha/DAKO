@@ -2,6 +2,7 @@ package edu.hm.dako.chat.server;
 
 import edu.hm.dako.chat.udp.*;
 
+import java.io.IOException;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
@@ -43,6 +44,8 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import edu.hm.dako.chat.server.*;
+import edu.hm.dako.chat.tcp.TcpConnection;
+import edu.hm.dako.chat.tcp.TcpConnectionFactory;
 
 /**
  * Benutzeroberflaeche zum Starten des Chat-Servers
@@ -101,7 +104,17 @@ public class ChatServerGUI extends Application implements ChatServerGuiInterface
 	private Button stopButton;
 	private Button finishButton;
 	private Button closeLogButton;
-	private Button startLogButton;
+	private Button startTCPLogButton;
+	private Button startUDPLogButton;
+	
+	
+	TcpConnectionFactory connectionFactory;
+	static TcpConnection tcpconnection ;
+	static UdpClient udpconnection;
+	
+	static boolean tcp=false;
+	static boolean udp=false;
+	
 
 	// Zaehler fuer die eingeloggten Clients und die empfangenen Request
 	private static AtomicInteger loggedInClientCounter;
@@ -176,6 +189,8 @@ public class ChatServerGUI extends Application implements ChatServerGuiInterface
 		reactOnFinishButton();
 		
 		reactOnCloseLogButton();
+		reactOnStartUDPLogButton();
+		reactOnStartTCPLogButton();
 		
 		stopButton.setDisable(true);
 		//closeLogButton.setDisable(true);
@@ -251,8 +266,10 @@ public class ChatServerGUI extends Application implements ChatServerGuiInterface
 		finishButton = new Button("Beenden");
 		
 		closeLogButton = new Button("Log stoppen");
+		startUDPLogButton = new Button("udplog starten");
+		startTCPLogButton = new Button ("tcplog starten");
 
-		buttonPane.getChildren().addAll(startButton, stopButton, finishButton, closeLogButton);
+		buttonPane.getChildren().addAll(startButton, stopButton, finishButton, closeLogButton, startUDPLogButton, startTCPLogButton);
 		buttonPane.setAlignment(Pos.CENTER);
 		return buttonPane;
 	}
@@ -448,7 +465,41 @@ public class ChatServerGUI extends Application implements ChatServerGuiInterface
 	
 	
 	
+	private void reactOnStartTCPLogButton() {
+		startTCPLogButton.setOnAction(new EventHandler<ActionEvent>() {
+			
+		
+				@Override
+				public void handle(ActionEvent event) {
+					connectionFactory = new TcpConnectionFactory();
+					
+					tcp=true;
+					try {
+						tcpconnection= (TcpConnection) connectionFactory.connectToServer( "127.0.0.1" , 50001, 50002, 20000, 20000);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+					
+					
+			}
+		});
+	}
 	
+	
+	
+	private void reactOnStartUDPLogButton() {
+		startTCPLogButton.setOnAction(new EventHandler<ActionEvent>() {
+			
+		
+				@Override
+				public void handle(ActionEvent event) {
+					
+		
+			}
+		});
+	}
 	
 	
 	private void reactOnCloseLogButton() {
@@ -457,13 +508,13 @@ public class ChatServerGUI extends Application implements ChatServerGuiInterface
 			public void handle(ActionEvent event) {
 				AuditLogPDU audit;
 				audit=AuditLogPDU.createShutdownPdu();
-				if (SimpleChatServerImpl.udp==true) {
-				SimpleChatServerImpl.udpconnection.sendAudit(audit);
+				if (udp==true) {
+				udpconnection.sendAudit(audit);
 				}
 				
-				if(SimpleChatServerImpl.tcp==true)
+				if(tcp==true)
 				try {
-					SimpleChatServerImpl.tcpconnection.send(audit);
+					tcpconnection.send(audit);
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
