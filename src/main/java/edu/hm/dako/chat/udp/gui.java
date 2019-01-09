@@ -1,65 +1,94 @@
-//package edu.hm.dako.chat.udp;
-//
-//import edu.hm.dako.chat.udp.*;
-//
-//import java.net.SocketException;
-//import java.net.UnknownHostException;
-//import java.text.SimpleDateFormat;
-//
-//import java.util.Calendar;
-//import java.util.concurrent.atomic.AtomicInteger;
-//
-//import javafx.stage.WindowEvent;
-//import org.apache.commons.logging.Log;
-//import org.apache.commons.logging.LogFactory;
-//import org.apache.log4j.PropertyConfigurator;
-//
-//import edu.hm.dako.chat.common.AuditLogPDU;
-//import edu.hm.dako.chat.common.ChatPDU;
-//import edu.hm.dako.chat.common.ExceptionHandler;
-//import edu.hm.dako.chat.common.ImplementationType;
-//import edu.hm.dako.chat.common.SystemConstants;
-//import javafx.application.Application;
-//import javafx.application.Platform;
-//import javafx.collections.FXCollections;
-//import javafx.collections.ObservableList;
-//import javafx.event.ActionEvent;
-//import javafx.event.EventHandler;
-//import javafx.geometry.Insets;
-//import javafx.geometry.Orientation;
-//import javafx.geometry.Pos;
-//import javafx.scene.Scene;
-//import javafx.scene.control.Alert;
-//import javafx.scene.control.Button;
-//import javafx.scene.control.ComboBox;
-//import javafx.scene.control.Label;
-//import javafx.scene.control.Separator;
-//import javafx.scene.control.TextField;
-//import javafx.scene.layout.GridPane;
-//import javafx.scene.layout.HBox;
-//import javafx.scene.layout.VBox;
-//import javafx.scene.paint.Color;
-//import javafx.scene.text.Font;
-//import javafx.stage.Stage;
-//import javafx.*;
-//
-//import edu.hm.dako.chat.server.*;
-//
-//public class gui {
-//
-//	private Button startButton;
-//	private Button stopButton;
-//	
-//	UdpClient auditClient;
-//	
-//	public gui() throws SocketException, UnknownHostException  {
-//	auditClient= new UdpClient();
-//	}
-//	
-//	public static void main(String[] args) throws SocketException {
-//		PropertyConfigurator.configureAndWatch("log4j.server.properties", 60 * 1000);
-//		launch(args);
-//		
-//
-//	}
-//}
+package edu.hm.dako.chat.udp;
+
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
+import java.awt.event.ActionListener;
+import java.io.IOException;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JButton;
+import javax.swing.AbstractAction;
+import java.awt.event.ActionEvent;
+import javax.swing.Action;
+
+public class gui extends JFrame {
+
+	private JPanel contentPane;
+	private final Action tcpStarten = new SwingAction();
+	private final Action udpStarten = new SwingAction_1();
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					gui frame = new gui();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public gui() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 450, 300);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JButton udp = new JButton("UDP starten");
+		udp.setAction(tcpStarten);
+		udp.setBounds(53, 85, 117, 81);
+		contentPane.add(udp);
+		
+		
+		JButton tcp = new JButton("TCP starten");
+		tcp.setAction(udpStarten);
+		tcp.setBounds(256, 85, 117, 81);
+		contentPane.add(tcp);
+	}
+
+	private class SwingAction extends AbstractAction {
+		public SwingAction() {
+			putValue(NAME, "tcpStartern");
+			putValue(SHORT_DESCRIPTION, "startet den TCP Server");
+		}
+		public void actionPerformed(ActionEvent e) {
+			try {
+				AuditLogTCP server = new AuditLogTCP();
+				server.run();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		
+		}
+		
+	}
+	private class SwingAction_1 extends AbstractAction {
+		public SwingAction_1() {
+			putValue(NAME, "udp Starten");
+			putValue(SHORT_DESCRIPTION, "Startet den udp server");
+		}
+		public void actionPerformed(ActionEvent b) {
+			try {
+				AuditLogServer server = new AuditLogServer();
+				server.run();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
+		}
+	}
+}
