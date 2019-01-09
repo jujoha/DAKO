@@ -519,11 +519,13 @@ public class ChatServerGUI extends Application implements ChatServerGuiInterface
 				audit=AuditLogPDU.createShutdownPdu();
 				if (udp==true) {
 				udpconnection.sendAudit(audit);
+				udpconnection.close();
 				}
 				
 				if(tcp==true)
 				try {
 					tcpconnection.send(audit);
+					tcpconnection.stop();
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

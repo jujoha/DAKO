@@ -175,4 +175,12 @@ public class TcpConnection implements Connection {
 			throw new IOException(new IOException());
 		}
 	}
+	public void stop() {
+		try {
+			socket.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }

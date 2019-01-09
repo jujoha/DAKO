@@ -59,7 +59,13 @@ public class UdpClient {
 	    catch (IOException e)    { e.printStackTrace();
 	 }
 	  }
-	}
+	
+
+public void close(){
+	socketclient.close();
+	
+}
+}
 
 
 
