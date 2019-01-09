@@ -43,8 +43,8 @@ public class SimpleChatServerImpl extends AbstractChatServer {
 	static TcpConnection tcpconnection ;
 	static UdpClient udpconnection;
 	
-	boolean tcp=true;
-	boolean udp=true;
+	static boolean tcp=true;
+	static boolean udp=true;
 		
 	
 

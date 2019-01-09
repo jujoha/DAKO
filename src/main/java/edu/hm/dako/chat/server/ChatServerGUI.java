@@ -457,7 +457,11 @@ public class ChatServerGUI extends Application implements ChatServerGuiInterface
 			public void handle(ActionEvent event) {
 				AuditLogPDU audit;
 				audit=AuditLogPDU.createShutdownPdu();
+				if (SimpleChatServerImpl.udp=true) {
 				SimpleChatServerImpl.udpconnection.sendAudit(audit);
+				}
+				
+				if(SimpleChatServerImpl.tcp=true)
 				try {
 					SimpleChatServerImpl.tcpconnection.send(audit);
 				} catch (Exception e) {

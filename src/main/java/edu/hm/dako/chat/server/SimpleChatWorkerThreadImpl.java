@@ -45,8 +45,7 @@ public class SimpleChatWorkerThreadImpl extends AbstractWorkerThread {
 	//UdpClient auditClient;
 	//TcpConnectionFactory connectionFactory;
 	//static TcpConnection tcpconnection;
-	static boolean tcp= true;
-	static boolean udp= true;
+
 		
 
 	public SimpleChatWorkerThreadImpl(Connection con, SharedChatClientList clients,
@@ -138,11 +137,11 @@ public class SimpleChatWorkerThreadImpl extends AbstractWorkerThread {
 		AuditLogPDU audit;
 		audit=AuditLogPDU.createLoginEventPdu(receivedPdu.getUserName(), receivedPdu);
 		
-		if(udp==true) {
+		if(SimpleChatServerImpl.udp==true) {
 		SimpleChatServerImpl.udpconnection.sendAudit(audit);
 		}
 		
-		 if(tcp==true) {
+		 if(SimpleChatServerImpl.tcp==true) {
 		
 		try {
 			SimpleChatServerImpl.tcpconnection.send(audit);
@@ -228,11 +227,11 @@ public class SimpleChatWorkerThreadImpl extends AbstractWorkerThread {
 		AuditLogPDU audit;
 		audit=AuditLogPDU.createLogoutEventPdu(receivedPdu.getUserName(), receivedPdu);
 		
-		if(udp==true) {
+		if(SimpleChatServerImpl.udp==true) {
 			SimpleChatServerImpl.udpconnection.sendAudit(audit);
 		}
 		
-		if(tcp==true) {
+		if(SimpleChatServerImpl.tcp==true) {
 		try {
 			SimpleChatServerImpl.tcpconnection.send(audit);
 		} catch (Exception e1) {
@@ -297,11 +296,11 @@ public class SimpleChatWorkerThreadImpl extends AbstractWorkerThread {
 			audit=AuditLogPDU.createChatMessageEventPdu(receivedPdu.getUserName(), receivedPdu);
 			//System.out.println(receivedPdu.getMessage());
 			
-			if(udp==true) {
+			if(SimpleChatServerImpl.udp==true) {
 				SimpleChatServerImpl.udpconnection.sendAudit(audit);
 			}
 			
-			if(tcp==true) {
+			if(SimpleChatServerImpl.tcp==true) {
 			try {
 				SimpleChatServerImpl.tcpconnection.send(audit);
 			} catch (Exception e1) {
