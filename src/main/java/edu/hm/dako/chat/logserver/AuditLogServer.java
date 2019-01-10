@@ -10,7 +10,7 @@ import edu.hm.dako.chat.common.AuditLogPDU;
 
 /** UDP basierter LogServer zum protokollieren
  * der empfangenen Anfragen
- * @author dominikasam
+ * @author dominikasam, julianhaimerl
  *
  */
 

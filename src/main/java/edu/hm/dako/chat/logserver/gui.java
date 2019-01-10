@@ -27,7 +27,7 @@ import javax.swing.Action;
 /**
  * gui zum starten der LogServer
  * 
- * @author dominikasam
+ * @author julianhaimerl
  *
  */
 
