@@ -90,7 +90,9 @@ public class AuditLogTCP {
 			}
 	        System.out.println(messagecount);
 	        System.out.println("socket geschlossen");
-	     
+	        messagecount=0;
+	        logincount=0;
+	        logoutcount=0;
 		}
 	}
 

@@ -490,13 +490,14 @@ public class ChatServerGUI extends Application implements ChatServerGuiInterface
 	
 	
 	private void reactOnStartUDPLogButton() {
-		startTCPLogButton.setOnAction(new EventHandler<ActionEvent>() {
+		startUDPLogButton.setOnAction(new EventHandler<ActionEvent>() {
 			
 		
 				@Override
 				public void handle(ActionEvent event) {
 					try {
 						udpconnection= new UdpClient("localhost");
+						udp=true;
 					} catch (SocketException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
