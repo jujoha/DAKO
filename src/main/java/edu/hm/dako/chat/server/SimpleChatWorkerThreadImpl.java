@@ -35,17 +35,7 @@ public class SimpleChatWorkerThreadImpl extends AbstractWorkerThread {
 
 	private static Log log = LogFactory.getLog(SimpleChatWorkerThreadImpl.class);
 	
-	/*
-	//udp Client
-		private DatagramSocket socketclient;
-		private InetAddress address;
-		
-		private byte[] buf;
-	*/	
-	//UdpClient auditClient;
-	//TcpConnectionFactory connectionFactory;
-	//static TcpConnection tcpconnection;
-
+	
 		
 
 	public SimpleChatWorkerThreadImpl(Connection con, SharedChatClientList clients,
@@ -53,26 +43,7 @@ public class SimpleChatWorkerThreadImpl extends AbstractWorkerThread {
 
 		super(con, clients, counter, serverGuiInterface);
 		
-		/*if(udp==true) {
-		
-		auditClient= new UdpClient();
-		*/}
-		
-		
-		//if(tcp== true) {
-		//connectionFactory = new TcpConnectionFactory();
-			
-		
-		
-		//tcpconnection= (TcpConnection) connectionFactory.connectToServer( "127.0.0.1" , 6789, 6788, 20000, 20000);
-		//}
-		
-		/*
-		//udp
-				socketclient = new DatagramSocket();
-				address = InetAddress.getByName("localhost");
-		*/		
-	//}
+	}
 
 	@Override
 	public void run() {
@@ -137,14 +108,15 @@ public class SimpleChatWorkerThreadImpl extends AbstractWorkerThread {
 		AuditLogPDU audit;
 		audit=AuditLogPDU.createLoginEventPdu(receivedPdu.getUserName(), receivedPdu);
 		
-		if(ChatServerGUI.udp==true) {
-			ChatServerGUI.udpconnection.sendAudit(audit);
+		//prüfen welcher Log aktiv ist und senden des zutreffenden Logs
+		if(SimpleChatServerImpl.udp==true) {
+			SimpleChatServerImpl.udpconnection.sendAudit(audit);
 		}
 		
-		 if(ChatServerGUI.tcp==true) {
+		 if(SimpleChatServerImpl.tcp==true) {
 		
 		try {
-			ChatServerGUI.tcpconnection.send(audit);
+			SimpleChatServerImpl.tcpconnection.send(audit);
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
 			System.out.println("kein TCPlog gestartet");
@@ -227,13 +199,14 @@ public class SimpleChatWorkerThreadImpl extends AbstractWorkerThread {
 		AuditLogPDU audit;
 		audit=AuditLogPDU.createLogoutEventPdu(receivedPdu.getUserName(), receivedPdu);
 		
-		if(ChatServerGUI.udp==true) {
-			ChatServerGUI.udpconnection.sendAudit(audit);
+		// Prüfung welcher Log aktiv ist und senden des zutreffenden Logs
+		if(SimpleChatServerImpl.udp==true) {
+			SimpleChatServerImpl.udpconnection.sendAudit(audit);
 		}
 		
-		if(ChatServerGUI.tcp==true) {
+		if(SimpleChatServerImpl.tcp==true) {
 		try {
-			ChatServerGUI.tcpconnection.send(audit);
+			SimpleChatServerImpl.tcpconnection.send(audit);
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -296,13 +269,14 @@ public class SimpleChatWorkerThreadImpl extends AbstractWorkerThread {
 			audit=AuditLogPDU.createChatMessageEventPdu(receivedPdu.getUserName(), receivedPdu);
 			//System.out.println(receivedPdu.getMessage());
 			
-			if(ChatServerGUI.udp==true) {
-				ChatServerGUI.udpconnection.sendAudit(audit);
+			//prüfung welcher Log-Typ aktiv ist und senden des zutreffenden Logs
+			if(SimpleChatServerImpl.udp==true) {
+				SimpleChatServerImpl.udpconnection.sendAudit(audit);
 			}
 			
-			if(ChatServerGUI.tcp==true) {
+			if(SimpleChatServerImpl.tcp==true) {
 			try {
-				ChatServerGUI.tcpconnection.send(audit);
+				SimpleChatServerImpl.tcpconnection.send(audit);
 			} catch (Exception e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -563,17 +537,5 @@ public class SimpleChatWorkerThreadImpl extends AbstractWorkerThread {
 		}
 	}
 	
-	//udp send methode
-	/*	public String sendEcho(AuditLogPDU audit) throws IOException {
-			buf = audit.getBytes(audit);
-	        DatagramPacket packet 
-	          = new DatagramPacket(buf, buf.length, address, 4445);
-	        socketclient.send(packet);
-	        packet = new DatagramPacket(buf, buf.length);
-	        socketclient.receive(packet);
-	        String received = new String(
-	          packet.getData(), 0, packet.getLength());
-	        return received;
-	    }
-	*/	
+
 }

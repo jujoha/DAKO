@@ -2,9 +2,18 @@ package edu.hm.dako.chat.server;
 
 import java.io.*;
 
+
+
 import java.net.*;
 
 import edu.hm.dako.chat.common.AuditLogPDU;
+
+/** 
+ * erzeugt einen UDP-Client für den Server
+ * 
+ * @author dominikasam
+ *
+ */
 
 public class UdpClient {
 	
@@ -20,19 +29,11 @@ public class UdpClient {
 	
 	}
 	
-	/*public String sendEcho(AuditLogPDU audit) throws IOException {
-		buf = audit.getBytes(audit);
-        DatagramPacket packet 
-          = new DatagramPacket(buf, buf.length, address, 4445);
-        socketclient.send(packet);
-        packet = new DatagramPacket(buf, buf.length);
-        socketclient.receive(packet);
-        String received = new String(
-          packet.getData(), 0, packet.getLength());
-        return received;
-    }
-    */
 	
+	/**
+	 * wandelt PDU in DatagramPacket um
+	 * @param o
+	 */
 	public void sendAudit(Object o)  
 	{    try    
 	{      
@@ -60,7 +61,9 @@ public class UdpClient {
 	 }
 	  }
 	
-
+/**
+ * schließt Socket
+ */
 public void close(){
 	socketclient.close();
 	

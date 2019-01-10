@@ -96,9 +96,11 @@ public class ChatServerGUI extends Application implements ChatServerGuiInterface
 	private TextField serverPort;
 	private TextField sendBufferSize;
 	private TextField receiveBufferSize;
+	private TextField logServerIP;
 	private Label serverPortLabel;
 	private Label sendBufferSizeLabel;
 	private Label receiveBufferSizeLabel;
+	private Label logServerIPLabel;
 
 	private Button startButton;
 	private Button stopButton;
@@ -109,11 +111,6 @@ public class ChatServerGUI extends Application implements ChatServerGuiInterface
 	
 	
 	TcpConnectionFactory connectionFactory;
-	static TcpConnection tcpconnection ;
-	static UdpClient udpconnection;
-	
-	static boolean tcp=false;
-	static boolean udp=false;
 	
 
 	// Zaehler fuer die eingeloggten Clients und die empfangenen Request
@@ -211,6 +208,7 @@ public class ChatServerGUI extends Application implements ChatServerGuiInterface
 		serverPortLabel = createLabel("ServerPort");
 		sendBufferSizeLabel = createLabel("Sendepuffer in Byte");
 		receiveBufferSizeLabel = createLabel("Empfangspuffer in Byte");
+		logServerIPLabel= createLabel("IP Adresse Log Server");
 
 		inputPane.setPadding(new Insets(5, 5, 5, 5));
 		inputPane.setVgap(1);
@@ -219,6 +217,7 @@ public class ChatServerGUI extends Application implements ChatServerGuiInterface
 		serverPort = createEditableTextfield(DEFAULT_SERVER_PORT);
 		sendBufferSize = createEditableTextfield(DEFAULT_SENDBUFFER_SIZE);
 		receiveBufferSize = createEditableTextfield(DEFAULT_RECEIVEBUFFER_SIZE);
+		logServerIP= createEditableTextfield("127.0.0.1");
 
 		inputPane.add(label, 1, 3);
 		inputPane.add(comboBoxImplType, 3, 3);
@@ -228,6 +227,8 @@ public class ChatServerGUI extends Application implements ChatServerGuiInterface
 		inputPane.add(sendBufferSize, 3, 7);
 		inputPane.add(receiveBufferSizeLabel, 1, 9);
 		inputPane.add(receiveBufferSize, 3, 9);
+		inputPane.add(logServerIPLabel,1 , 11);
+		inputPane.add(logServerIP, 3, 11);
 
 		return inputPane;
 	}
@@ -463,19 +464,22 @@ public class ChatServerGUI extends Application implements ChatServerGuiInterface
 		});
 	}
 	
-	
+	/**
+	 * Reaktion auf das Betaetigen des StartTCPLogButton-Buttons
+	 * erzeug TCPVerbindung des Servers zum LogServer
+	 */
 	
 	private void reactOnStartTCPLogButton() {
 		startTCPLogButton.setOnAction(new EventHandler<ActionEvent>() {
-			
+			String ip = readLogServerIP();
 		
 				@Override
 				public void handle(ActionEvent event) {
 					connectionFactory = new TcpConnectionFactory();
 					
-					tcp=true;
+					SimpleChatServerImpl.tcp=true;
 					try {
-						tcpconnection= (TcpConnection) connectionFactory.connectToServer( "127.0.0.1" , 50001, 50002, 20000, 20000);
+						SimpleChatServerImpl.tcpconnection= (TcpConnection) connectionFactory.connectToServer( ip , 50001, 50002, 20000, 20000);
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -487,17 +491,20 @@ public class ChatServerGUI extends Application implements ChatServerGuiInterface
 		});
 	}
 	
-	
+	/**
+	 * Reaktion auf das Betaetigen des StartUDPLog-Buttons
+	 * erzeugt Socket für UDP Kommunikation mit dem LogServer
+	 */
 	
 	private void reactOnStartUDPLogButton() {
 		startUDPLogButton.setOnAction(new EventHandler<ActionEvent>() {
 			
-		
+			String ip = readLogServerIP();
 				@Override
 				public void handle(ActionEvent event) {
 					try {
-						udpconnection= new UdpClient("localhost");
-						udp=true;
+						SimpleChatServerImpl.udpconnection= new UdpClient(ip);
+						SimpleChatServerImpl.udp=true;
 					} catch (SocketException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -511,33 +518,34 @@ public class ChatServerGUI extends Application implements ChatServerGuiInterface
 		});
 	}
 	
-	
+	/**
+	 * Reaktion auf das Betaetigen des CloseLog-Buttons
+	 * sendet shutdown Nachricht an LogServer
+	 */
 	private void reactOnCloseLogButton() {
 		closeLogButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
 				AuditLogPDU audit;
 				audit=AuditLogPDU.createShutdownPdu();
-				if (udp==true) {
-				udpconnection.sendAudit(audit);
-				//udpconnection.close();
-				//udp=false;
+				if (SimpleChatServerImpl.udp==true) {
+					SimpleChatServerImpl.udpconnection.sendAudit(audit);
+					SimpleChatServerImpl.udpconnection.close();
+					SimpleChatServerImpl.udp=false;
 				}
 				
-				if(tcp==true)
+				if(SimpleChatServerImpl.tcp==true)
 				try {
-					tcpconnection.send(audit);
-					//tcpconnection.stop();
-					//tcp=false;
+					SimpleChatServerImpl.tcpconnection.send(audit);
+					//SimpleChatServerImpl.tcpconnection.close();
+					SimpleChatServerImpl.tcp=false;
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				
 					
-				//	startLogButton.setDisable(false);
-				//	closeLogButton.setDisable(true);
-					
+				
 				
 				
 			}
@@ -615,6 +623,15 @@ public class ChatServerGUI extends Application implements ChatServerGuiInterface
 
 		}
 		return (iServerPort);
+	}
+	
+	
+	/**
+	 *  gibt IP für LogServer zurück
+	 */
+	private String readLogServerIP() {
+		String item = new String (logServerIP.getText());
+		return item;
 	}
 
 	/**

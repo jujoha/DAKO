@@ -38,16 +38,17 @@ public class SimpleChatServerImpl extends AbstractChatServer {
 	private ServerSocketInterface socket;
 	
 	
-
-	/* TcpConnectionFactory connectionFactory;
+	//verwalten der Log-Verbindung/sockets
+	TcpConnectionFactory connectionFactory;
 	static TcpConnection tcpconnection ;
 	static UdpClient udpconnection;
 	
-	static boolean tcp=true;
-	static boolean udp=true;
+	//Prüfvariable welcher Log aktiv ist
+	static boolean tcp=false;
+	static boolean udp=false;
 	
 		
-	 */
+	 
 	
 
 	/**

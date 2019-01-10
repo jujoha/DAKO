@@ -24,6 +24,12 @@ import javax.swing.AbstractAction;
 import java.awt.event.ActionEvent;
 import javax.swing.Action;
 
+/**
+ * gui zum starten der LogServer
+ * 
+ * @author dominikasam
+ *
+ */
 
 public class gui extends JFrame {
 
@@ -73,6 +79,12 @@ public class gui extends JFrame {
 		
 		
 	}
+	
+	/**
+	 * startet den TCPLogServer
+	 * @author dominikasam
+	 *
+	 */
 
 	private class SwingAction extends AbstractAction {
 		public SwingAction() {
@@ -95,6 +107,12 @@ public class gui extends JFrame {
 		}
 	}
 	
+	/**
+	 * startet den UDPLogServer
+	 * 
+	 * @author dominikasam
+	 *
+	 */
 	private class SwingAction_1 extends AbstractAction {
 		public SwingAction_1() {
 			putValue(NAME, "udp Starten");

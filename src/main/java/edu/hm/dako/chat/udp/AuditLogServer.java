@@ -6,11 +6,13 @@ import java.net.*;
 
 
 import edu.hm.dako.chat.common.AuditLogPDU;
-import edu.hm.dako.chat.common.ExceptionHandler;
-import edu.hm.dako.chat.connection.Connection;
-import edu.hm.dako.chat.server.SharedChatClientList;
-import edu.hm.dako.chat.server.SimpleChatWorkerThreadImpl;
-import javafx.concurrent.Task;
+
+
+/** UDP basierter LogServer zum protokollieren
+ * der empfangenen Anfragen
+ * @author dominikasam
+ *
+ */
 
 public class AuditLogServer extends Thread {
 	
@@ -18,17 +20,18 @@ public class AuditLogServer extends Thread {
     private boolean running;
     BufferedWriter writer;
  
+    //Zähler für Art der empfangenen Logs
     static int logincount;
 	static int logoutcount;
 	static int messagecount;
 	
     public AuditLogServer() throws IOException {
-       // socket = new DatagramSocket(4445);
+       
     	writer= new BufferedWriter(new FileWriter("AuditLogUDP.log"));
     	writer.write("Log File:");
     	messagecount=0;
         
-        //writer.close();
+       
     }
     
     public static void main(String[] args) throws IOException {
@@ -36,15 +39,11 @@ public class AuditLogServer extends Thread {
     	test.run();
     	
     }
-    
-   /* public void startLog()  {
-    	this.start();
-    	
-    	
-    }
-    */
    
-    
+   
+    /**
+     * startet den LogServer
+     */
     public void run() {
     	
     	try {
@@ -60,11 +59,13 @@ public class AuditLogServer extends Thread {
         while (running) {
     	AuditLogPDU receivedPdu= (AuditLogPDU) recvLog();
     	try {
-    		
+    		//schreiben in LogFile
 			writer.append(receivedPdu.toString());
 			
 			
 		writer.flush();
+		
+		//erfassen welche Art von Anfrage stattfand
 		switch (receivedPdu.getPduType()) {
 
 		case LOGIN_EVENT:
@@ -94,7 +95,7 @@ public class AuditLogServer extends Thread {
     	System.out.println(receivedPdu.toString());
     	
     	
-    	
+    	//schließen des Servers bei shutdown pdu
     	if (receivedPdu.toString(receivedPdu.getPduType()).equals ("Typ: AUDIT-End")) {
             running = false;
             continue;
@@ -121,7 +122,10 @@ public class AuditLogServer extends Thread {
     }
     
     
-    
+    /**
+     * wandelt das empfangene Packet wieder in eine PDU um
+     * @return
+     */
     
     public Object recvLog()  
     {    try

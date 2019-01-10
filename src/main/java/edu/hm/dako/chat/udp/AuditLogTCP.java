@@ -7,6 +7,11 @@ import edu.hm.dako.chat.tcp.*;
 import edu.hm.dako.chat.common.AuditLogPDU;
 import edu.hm.dako.chat.common.ExceptionHandler;
 
+/**
+ * TCP basierter Logserver
+ * @author dominikasam
+ *
+ */
 
 public class AuditLogTCP {
 	BufferedWriter writer;
@@ -21,6 +26,10 @@ public class AuditLogTCP {
 		
 	}
 	
+	/**
+	 * startet den Server
+	 * @throws IOException
+	 */
 	public void run() throws IOException {
 		System.out.println("TCP Log gestartet");
 		BufferedWriter writer= new BufferedWriter(new FileWriter("AuditLogTCP.log"));
@@ -40,10 +49,11 @@ public class AuditLogTCP {
 				
 		    		
 				writer.append(receivedPdu.toString());
-					
+				//schreiben in Log File	
 				writer.flush();
 				System.out.println(receivedPdu.toString());
 				
+				//erfasst welche Art von Anfrage stattfand
 					switch (receivedPdu.getPduType()) {
 
 					case LOGIN_EVENT:
@@ -67,7 +77,7 @@ public class AuditLogTCP {
 				} catch (Exception e) {
 				
 				}
-			
+			//schließt den Server wenn shutdown pdu empfangen wird
 			
 			if (receivedPdu.toString(receivedPdu.getPduType()).equals ("Typ: AUDIT-End")) {
 	           running= false;
@@ -98,25 +108,4 @@ public class AuditLogTCP {
 
 	
 	  
-	  
-	  
-	/*public static void main(String argv[]) throws Exception {
-		  String clientSentence;
-		  String capitalizedSentence;
-		  ServerSocket socket = new ServerSocket(6789);
-
-
-	 while (true) {
-		 AuditLogPDU ausgabe
-		   Socket connectionSocket = socket.accept();
-		   BufferedReader inFromClient =
-		    new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
-		   DataOutputStream outToClient = new DataOutputStream(connectionSocket.getOutputStream());
-		   ausgabe= connectionSocket.getInputStream();
-		   clientSentence = inFromClient.readLine();
-		   System.out.println("Received: " + clientSentence);
-		   capitalizedSentence = clientSentence.toUpperCase() + 'n';
-		   outToClient.writeBytes(capitalizedSentence);
-		  }
-}
-*/
+	
