@@ -1,4 +1,4 @@
-package edu.hm.dako.chat.udp;
+package edu.hm.dako.chat.logserver;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;

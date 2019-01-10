@@ -1,4 +1,4 @@
-package edu.hm.dako.chat.udp;
+package edu.hm.dako.chat.logserver;
 
 import java.io.IOException;
 import java.io.*;

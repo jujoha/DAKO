@@ -1,7 +1,5 @@
 package edu.hm.dako.chat.server;
 
-import edu.hm.dako.chat.udp.*;
-
 import java.io.IOException;
 import java.net.SocketException;
 import java.net.UnknownHostException;
@@ -20,6 +18,7 @@ import edu.hm.dako.chat.common.ChatPDU;
 import edu.hm.dako.chat.common.ExceptionHandler;
 import edu.hm.dako.chat.common.ImplementationType;
 import edu.hm.dako.chat.common.SystemConstants;
+import edu.hm.dako.chat.logserver.*;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -530,15 +529,15 @@ public class ChatServerGUI extends Application implements ChatServerGuiInterface
 				audit=AuditLogPDU.createShutdownPdu();
 				if (SimpleChatServerImpl.udp==true) {
 					SimpleChatServerImpl.udpconnection.sendAudit(audit);
-					SimpleChatServerImpl.udpconnection.close();
-					SimpleChatServerImpl.udp=false;
+					//SimpleChatServerImpl.udpconnection.close();
+					//SimpleChatServerImpl.udp=false;
 				}
 				
 				if(SimpleChatServerImpl.tcp==true)
 				try {
 					SimpleChatServerImpl.tcpconnection.send(audit);
 					//SimpleChatServerImpl.tcpconnection.close();
-					SimpleChatServerImpl.tcp=false;
+					//SimpleChatServerImpl.tcp=false;
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
