@@ -99,7 +99,6 @@ public class gui extends JFrame {
 			    		AuditLogTCP server = new AuditLogTCP();
 						server.run();
 					} catch (IOException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 				}
@@ -126,7 +125,6 @@ public class gui extends JFrame {
 						AuditLogServer server = new AuditLogServer();
 						server.run();
 					} catch (IOException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 				}

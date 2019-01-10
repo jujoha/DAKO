@@ -49,7 +49,7 @@ public class AuditLogServer extends Thread {
     	try {
 			socket = new DatagramSocket(4445);
 		} catch (SocketException e) {
-			// TODO Auto-generated catch block
+			
 			System.out.println("Socket kann nicht erstellt werden");
 			e.printStackTrace();
 		}
@@ -89,7 +89,7 @@ public class AuditLogServer extends Thread {
 
 		}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			System.out.println(e);
 			e.printStackTrace();
 		}
     	System.out.println(receivedPdu.toString());

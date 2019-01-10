@@ -95,7 +95,7 @@ public class AuditLogTCP {
 	        	writer.flush();
 				writer.close();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
+				System.out.println("write nicht möglich");
 				e.printStackTrace();
 			}
 	        System.out.println(messagecount);
